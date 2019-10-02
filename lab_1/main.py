@@ -30,3 +30,4 @@ line =  'Mary was quick to realize that she had won the prize that was a desired
 getWordsFrequence(line)
 
 
+"""проверка github"""

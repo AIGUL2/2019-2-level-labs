@@ -31,3 +31,4 @@ getWordsFrequence(line)
 
 
 """проверка github"""
+"""иии"""

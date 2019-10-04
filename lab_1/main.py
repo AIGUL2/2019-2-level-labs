@@ -1,71 +1,47 @@
-"""
-Labour work #1
-Count frequencies dictionary by the given arbitrary text
-"""
-def calculate_frequences(text):
-    dict_f = {}
-    word = ''
-    text = text.lower()
-    for i in text:
-        if i.isalpha() or i == ' ':
-              word += i
-    word_new = word.split()
-    for i in word_new:
-        if i in dict_f:
-            word_counter = word_new.count(i)
-            dict_f[i] = word_counter
-    return dict_f
-
-
-def filter_stop_words(frequencies: dict, stop_words: tuple) -> dict:
-
-    """    Removes all stop words from the given frequencies dictionary
-
-    """
-    spisok = {}
-    if type(frequencies)== dict and type(stop_words)== tuple:
-    for k, i in frequencies.items():
-        if k not in stop_words:
-            spisok[k] = i
-    return spisok
-
-def get_top_n(frequencies: dict, top_n: int) -> tuple:
-    """
-    Takes first N popular wordss
-    """
-    pass
-"""
-Labour work #1
-Count frequencies dictionary by the given arbitrary text
-"""
-
-
-
-text_=  '''Mary was quick to realize that she had won the prize that was a desired thing that everyone wanted'''
-stop_words = ('i', 'am', 'a', 'human')
-top_n = 2
-
-def getWordsFrequence(line):
+def calculate_frequences(str):
     dict = {} #словарь
-    stopWords=['lol','kek','cheburek','of']
     word = ''
-    for i in range(len(line)):
-        letter = line[i].lower()
-        if str.isalpha(letter):
+    for i in range(len(str)):
+        letter = str[i].lower()
+        if letter.isalpha():
             word = word+letter
         elif len(word) != 0:
             if word in dict:
                 dict[word]+=1
-            elif word not in stopWords:
+            else:
                 dict[word]=1
             word = ''
-
-    sortedByFrequence = sorted(dict,key=dict.get,reverse=True)
-    for i in sortedByFrequence:
-        print (i,dict[i],sep=':')
-
-    print('the most frequent word is: ',sortedByFrequence[0])
     return dict
 
-line = "Meet my family. There are five of us – my parents, my elder brother, my baby sister and me. First, meet my mum and dad, Jane and Michael."
-getWordsFrequence(line)
+def filter_stop_words(frequencies,stop_words):
+    dictcopy = frequencies.copy()
+    for word in stop_words:
+        if word in dictcopy:
+            del dictcopy[word]
+    return dictcopy
+
+def get_top_n(frequencies, top_n):
+    sortedFrequencies = sorted(frequencies, key=frequencies.get, reverse=True)
+    top_n = top_n if len(sortedFrequencies)>top_n else len(sortedFrequencies)
+    return tuple(sortedFrequencies[i] for i in range(top_n))
+
+def read_from_file(path_to_file, lines_limit):
+    with open(path_to_file,"r") as myfile:
+        str = ''
+        for i in range (lines_limit):
+            str = str + myfile.readline()
+    return str
+
+def write_to_file(path_to_file, content):
+    with open(path_to_file,"w") as myfile:
+            myfile.writelines(map(lambda word: word+'\n',content))
+    return True
+
+string = "Meet my family. There are five of us – my parents, my elder brother, my baby sister and me. First, meet my mum and dad, Jane and Michael."
+stopWords = ('lol','kek','cheburek','meet')
+
+dict = calculate_frequences(string)
+dictFiltred = filter_stop_words(dict,stopWords)
+topwords = (get_top_n(dict,5))
+fromFile = get_top_n(calculate_frequences(read_from_file("data.txt",5)),3)
+write_to_file("report.txt",fromFile)

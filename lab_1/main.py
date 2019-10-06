@@ -1,45 +1,33 @@
-def calculate_frequences(text):
-    dict_f = {}
+def calculate_frequences(str):
+    dict = {} #словарь
     word = ''
-    text = text.lower()
-    for i in text:
-        if i.isalpha() or i == ' ':
-              word += i
-        else:
+    for i in range(len(str)):
+        letter = str[i].lower()
+        if letter.isalpha():
+            word = word+letter
+        elif len(word) != 0:
+            if word in dict:
+                dict[word]+=1
+            else:
+                dict[word]=1
             word = ''
-    word_new = word.split()
-    for i in word_new:
-        if i in dict_f:
-            word_counter = word_new.count(i)
-            dict_f[i] = word_counter
-    return dict_f
+    return dict
 
-def filter_stop_words(frequencies, stop_words):
-    spisok = {}
-    if type(frequencies)== dict and type(stop_words)== tuple:
-        for k, i in frequencies.items():
-            if k not in stop_words:
-                spisok[k] = i
-        return spisok
-
+def filter_stop_words(frequencies,stop_words):
+    dictcopy = frequencies.copy()
+    for word in stop_words:
+        if word in dictcopy:
+            del dictcopy[word]
+    return dictcopy
 
 def get_top_n(frequencies, top_n):
-    sortedFrequencies = sorted(frequencies, key=for_sort, reverse=True)
-    ad_element = []
-    if len(sortedFrequencies)>top_n:
-        top_n = top_n
-    else:
-        len(sortedFrequencies)
-    for i in range(top_n):
-        word = sortedFrequencies[i]
-        ad_element.append(word)
-    return tuple(ad_element)
+    sortedFrequencies = sorted(frequencies, key=frequencies.get, reverse=True)
+    top_n = top_n if len(sortedFrequencies)>top_n else len(sortedFrequencies)
+    return tuple(sortedFrequencies[i] for i in range(top_n))
 
-def for_sort(n):
-    return n[1]
-print(get_top_n({'cat': 2, 'dog':3, 'swan':6}, 2))
+string = "Meet my family. There are five of us – my parents, my elder brother, my baby sister and me. First, meet my mum and dad, Jane and Michael."
+stopWords = ('lol','kek','cheburek','meet')
 
-
-text = "Meet my family. There are five of us – my parents, my elder brother, my baby sister and me. First, meet my mum and dad, Jane and Michael."
-stop_words = ('lol','kek','cheburek','meet')
-
+dict = calculate_frequences(string)
+dictFiltred = filter_stop_words(dict,stopWords)
+topwords = (get_top_n(dict,5))

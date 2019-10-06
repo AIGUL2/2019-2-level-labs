@@ -14,11 +14,14 @@ def calculate_frequences(str):
     return dict
 
 def filter_stop_words(frequencies,stop_words):
-    dictcopy = frequencies.copy()
-    for word in stop_words:
-        if word in dictcopy:
-            del dictcopy[word]
-    return dictcopy
+    if type(frequencies) == dict and type(stop_words) == tuple:
+        dictcopy = frequencies.copy()
+        for word in stop_words:
+            if word in dictcopy:
+                del dictcopy[word]
+        return dictcopy
+
+
 
 def get_top_n(frequencies, top_n):
     sortedFrequencies = sorted(frequencies, key=frequencies.get, reverse=True)

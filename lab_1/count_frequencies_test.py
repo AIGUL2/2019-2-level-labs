@@ -7,6 +7,7 @@ import unittest
 
 from lab_1 import main
 
+
 SAMPLE_TEXT = "The quick brown fox jumps over the lazy dog"
 
 

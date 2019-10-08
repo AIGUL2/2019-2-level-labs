@@ -1,4 +1,4 @@
-def calculate_frequencies(text: str) -> dict:
+def calculate_frequences(text: str) -> dict:
     dict_f = {}
     if text == "" or text is None:
         return dict_f
@@ -32,6 +32,6 @@ def filter_stop_words(freq_dict, stop_words: tuple) -> dict:
 
 def get_top_n(frequencies, top_n):
     sortedFrequencies = sorted(frequencies, key=frequencies.get, reverse=True)
-    top_n = top_n if len(sortedFrequencies)>top_n else len(sortedFrequencies) 
+    top_n = top_n if len(sortedFrequencies)>top_n else len(sortedFrequencies)
     return tuple(sortedFrequencies[i] for i in range(top_n))
 

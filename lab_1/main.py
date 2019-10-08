@@ -10,7 +10,7 @@ def calculate_frequencies(text: str) -> dict:
     split = text_lower.split()
     for word in split:
         word = word.lower()
-        if word  in dict_f():
+        if word in dict_f():
             value = dict_f[word]
             dict_f[word] = value + 1
         else:
@@ -20,22 +20,18 @@ def calculate_frequencies(text: str) -> dict:
 
 
 
-def filter_stop_words(frequencies: dict, stop_words: tuple) -> dict:
-    if stop_words is None or frequencies is None:
-        return {}
-    for word in stop_words:
-        if word in frequencies:
-            frequencies.pop(word)
-    result_dict = {}
-    for word, value in frequencies.items():
-        if type(word) is str:
-            result_dict[word] = value
-
-    return result_dict
+def filter_stop_words(freq_dict, stop_words: tuple) -> dict:
+    dict_f_s = {}
+    if freq_dict is not None and stop_words is not None:
+        for key, value in freq_dict.items():
+            if key == str(key):
+                if key not in stop_words:
+                    dict_f_s.update({key: value})
+    return dict_f_s
 
 
 def get_top_n(frequencies, top_n):
     sortedFrequencies = sorted(frequencies, key=frequencies.get, reverse=True)
-    top_n = top_n if len(sortedFrequencies)>top_n else len(sortedFrequencies) # тут проверка, меньше ли число слов, чем  длина словаря
+    top_n = top_n if len(sortedFrequencies)>top_n else len(sortedFrequencies) 
     return tuple(sortedFrequencies[i] for i in range(top_n))
 

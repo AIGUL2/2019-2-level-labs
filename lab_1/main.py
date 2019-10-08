@@ -10,7 +10,7 @@ def calculate_frequences(text: str) -> dict:
     split = text_lower.split()
     for word in split:
         word = word.lower()
-        if word in dict_f():
+        if word in dict_f:
             value = dict_f[word]
             dict_f[word] = value + 1
         else:

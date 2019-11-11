@@ -28,11 +28,8 @@ def initialize_edit_matrix(edit_matrix: tuple, add_weight: int, remove_weight: i
 
     for j in range(1, len(edit_matrix[0])):
         edit_matrix[0][j] = edit_matrix[0][j - 1] + add_weight
-    print(edit_matrix)
 
     return edit_matrix
-
-    initialize_edit_matrix(([0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0]), 1, 1)
     pass
 
 

@@ -39,8 +39,6 @@ def minimum_value(numbers: tuple) -> int:
         if elem < minimum:
             minimum = elem
 
-    # minimum = min(numbers)
-
     return minimum
 
     pass
@@ -52,6 +50,20 @@ def fill_edit_matrix(edit_matrix: tuple,
                      substitute_weight: int,
                      original_word: str,
                      target_word: str) -> list:
+    edit_matrix = list(edit_matrix)
+    if not original_word or not target_word or type(add_weight) != int or type(remove_weight) != int \
+            or type(substitute_weight) != int:
+        return edit_matrix
+    for i in range(1, len(edit_matrix)):
+        for j in range(1, len(edit_matrix[0])):
+            if original_word[i - 1] != target_word[j - 1]:
+                s_w = substitute_weight
+    else:
+        s_w = 0
+    edit_matrix[i][j] = minimum_value((edit_matrix[i - 1][j] + remove_weight,
+                                       edit_matrix[i][j - 1] + add_weight,
+                                       edit_matrix[i - 1][j - 1] + s_w))
+    return edit_matrix
     pass
 
 
@@ -60,18 +72,16 @@ def find_distance(original_word: str,
                   add_weight: int,
                   remove_weight: int,
                   substitute_weight: int) -> int:
-    edit_matrix = list(edit_matrix)
-    if not original_word or not target_word or type(add_weight) != int or type(remove_weight) != int \
+    if type(original_word) != str or type(target_word) != str or type(add_weight) != int or type(remove_weight) != int \
             or type(substitute_weight) != int:
-        return edit_matrix
-    for i in range(1, len(edit_matrix)):
-        for j in range(1, len(edit_matrix[0])):
-            if original_word[i - 1] != target_word[j - 1]:
-            s_w = substitute_weight
-    else:
-        s_w = 0
-    edit_matrix[i][j] = minimum_value((edit_matrix[i - 1][j] + remove_weight,
-                                       edit_matrix[i][j - 1] + add_weight,
-                                       edit_matrix[i - 1][j - 1] + s_w))
-    return edit_matrix
+        return -1
+    edit_matrix = generate_edit_matrix(len(original_word) + 1, len(target_word) + 1)
+    edit_matrix = initialize_edit_matrix(edit_matrix, add_weight, remove_weight)
+
+    edit_matrix = fill_edit_matrix(edit_matrix, add_weight, remove_weight, substitute_weight, original_word,
+                                   target_word)
+    return edit_matrix[-1][-1]
+    
+
     pass
+
